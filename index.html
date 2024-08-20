@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is just a testing document for now</title>
+</head>
+<body>
+    
+</body>
+<script src="mist.mobile.js"></script>
+<script>
+    MIST_Mobile_Init(MIST_Mobile_Button);
+
+    const app = new MIST_Mobile_Widgets;
+    const btn = app.button('?', 50, 50, '255, 255, 255, 0.4');
+    btn.render(document.body);
+
+    btn.event().mouseDown(function(){
+        MIST_Mobile_Style(btn.get_Root()).boxShadow('5px 5px 10px black');
+    })
+
+    btn.event().mouseUp(function(){
+        MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
+    })
+
+    btn.event().mouseLeave(function(){
+        MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
+    })
+
+    MIST_Mobile_Style(btn.get_Root()).backgroundColor('green');
+    MIST_Mobile_Style(btn.get_Root()).color('white');
+    MIST_Mobile_Style(btn.get_Root()).borderRadius(10000);
+
+    console.log(MIST_Mobile_Random().get_number_remove_random);
+</script>
+</html>

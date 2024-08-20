@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mist Mobile Widget application</title>
+    <style>
+        .mist-mobile-btn {
+            background-color: #1A73E9;
+            color: white;
+            border: 0px;
+            border-radius: 5px;
+            height: 40px;
+            width: 120px;
+            cursor: pointer;
+            transition: 0.5s;
+            font-family: 'arial';
+            font-weight: bold;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mist-mobile-btn:hover {
+            background-color: #155ebd;
+        }
+
+        .mist-mobile-btn:focus {
+            background-color: #155ebd;
+        }
+
+
+
+        .mist-mobile-ripple {
+            height: 40px;
+            width: 40px;
+            box-shadow: 0px 0px 20px 20px rgba(255, 255, 255, 0.5);
+            border-radius: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .mist-mobile-play-ripple {
+            height: 40px;
+            width: 40px;
+            transition: 1s;
+            animation-name: mist-mobile-play_ripple;
+            animation-duration: 1s;
+            animation-direction: alternate;
+            animation-iteration-count: 1;
+        }
+
+
+        @keyframes mist-mobile-play_ripple {
+            from {
+                transform: scale(0.1);
+            }
+
+            to {
+                transform: scale(4);
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: yellow;">
+    <button class="mist-mobile-btn">
+        Sign up
+        <!-- <span class="ripple"></span> -->
+    </button>
+</body>
+<!-- <script src="mist.mobile.js"></script> -->
+<!-- <script>
+    // const widget = new MIST_Mobile_Widgets;
+    // const btn = widget.button('Click me', 50, 300, 'hellow',"", "255, 255, 255, 0.4");
+    // btn.render(document.body);
+</script> -->
+<script>
+    const Mouse = {
+
+        x() {
+
+            var mouse;
+            function get_X(event) {
+                var pos = event.clientX;
+                mouse = pos;
+            }
+            get_X(event);
+
+            return mouse;
+
+        },
+
+
+        y() {
+
+            var mouse;
+            function get_Y(event) {
+                var pos = event.clientY;
+                mouse = pos;
+            }
+            get_Y(event);
+
+            return mouse;
+
+        },
+
+        get_Pos() {
+            var x = Mouse.x();
+            var y = Mouse.y();
+            var build = x + "," + y;
+            return build;
+        }
+
+    }
+    // Ripple effect code
+    var btn = document.querySelector('.mist-mobile-btn');
+
+    btn.addEventListener('mousedown', function () {
+        var span = document.createElement('span');
+        span.classList.add('mist-mobile-ripple');
+        span.classList.add('mist-mobile-play-ripple')
+        btn.appendChild(span);
+
+        var x = Mouse.x();
+        var y = Mouse.y();
+
+        span.style.height = '40px'
+        span.style.width = '40px'
+
+        var width = parseInt(span.style.width.replace('px', ''));
+        var height = parseInt(span.style.height.replace('px', ''));
+
+        console.log(`Width : ${width}`)
+        console.log(`Height : ${height}`)
+
+        span.style.top = (y - height/2 + 'px');
+        span.style.left = (x - width/2 + 'px');
+
+        span.style.transform = 'scale(4)';
+
+        btn.addEventListener('mouseup', function(){
+            span.style.opacity = 0;
+            setTimeout(function(){
+                span.remove();
+            }, 1000);
+        })
+
+        btn.addEventListener('mouseleave', function(){
+            span.style.opacity = 0;
+            setTimeout(function(){
+                span.remove();
+            }, 1000);
+        })
+    })
+    
+</script>
+
+</html>
