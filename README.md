@@ -230,3 +230,345 @@ It means that every widget you will draw will be independent means you will have
 
 <b>for Example</b>
 You have created a button widget and not it's a child of the document but MIST Mobile allows you to make the button a new parent and put any widget as a children to it. and then you ca directly manipulate all of those with MIST Mobile provided methods for example if you dekete that button then it's children will be also deleted. or you can , add, remove anyt particular children or direct play with root of the button which is the identity of the button from where it can be fully controlled but MIST Mobile not stops till here but it can also give you the access to direct button element where you can easily manipulate and even destroy it. also you can remove all the childrens of that button in seconds.
+
+
+
+### button() [method]
+<code>button()</code> is a method of the class <code>MIST_Mobile_Widgets</code> which allows the developers to create an Android Native button on web with just few lines of code. A button can be also used to create some interactive applications where user click attention is needed.
+
+<b>Syntax</b>
+button() as a member of MIST_Mobile_Widgets class can be only used if the class exists or has been initalised othervise it may not work.
+Just use the syntax of javascript like this.
+
+yourclassinit.button();
+
+Make sure to replace the yourclassinit with actuall initalised variable with class MIST_Mobile_Widgets.
+
+Also before writting button do not forget to initalise the button widget for using it othervise the button may not work as expected. For initalising the button widget please use 
+
+```javascript
+
+// Initalising the button widget
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// MIST_Mobile_Init() is used to initalise anything you want which is present inside the MIST Mobile JS Framework in our case we initalised the button widget
+
+```
+
+<b>How to get the name of widget you want to initalise? </b>
+Simply follow MIST Mobile Js Framework standard format which is 
+
+"MIST_Mobile_" what you want to initalise ?just write the initaliser name with capitalised format
+
+Example
+
+MIST_Mobile_Button : Because button is Button in capitalised format
+
+
+<b>Button parameters</b>
+the button function takes total 5 arguments as parameters which are needed to create a button, And those are (label, width, height, ripple, click).
+
+label: This is used to define the label or simply the text which will appear on top of the button. (Required)
+
+width: This takes numeric values for defining the default button width. (Optional by default 120)
+
+height: This is same as width but this defines the default height of the button. (Optional by default 40)
+
+ripple: This takes a rgba color code or a vector4 color code for setting the color of the ripple effect which must be applied to button with format 'red, green, blue, alpha' as '0,0,0,1' is range of 0 to 255 where 0 stands for darkest and 255 stands for lightest. (Optional by default ''0, 0, 0, 0.2'')
+
+click: This is used as a callback function when ever the button has been clicked. (Optional by default <code>function(){console.log('MIST MOBILE : The button was clicked!')}</code>) you can also add click function with events of button widget so do not worry if you missed this argument.
+
+<b>button methods</b>
+button widget has a lot of methods let's take a look on those
+
+1.) render()
+2.) remove()
+3.) event()
+4.) event().click()
+5.) event().mouseDown()
+6.) event().mouseUp()
+7.) event().mouseLeave()
+8.) event.().list()
+9.) add_Child()
+10.) remove_Child()
+11.) remove_Children()
+12.) add_Child_From_Id()
+13.) remove_Child_From_Id()
+1+4.) get_Root()
+15.) get_Widget()
+16.) hide()
+17.) show()
+
+<b> Methods seperated based on there difficulty level</b>
+
+Easy to learn
+1.) render()
+2.) remove()
+3.) hide()
+4.) show()
+
+harsh to Learn
+5.) event()
+6.) event.().list()
+7.) event().click()
+8.) event().mouseDown()
+9.) event().mouseUp()
+10.) event().mouseLeave()]
+
+
+hard to Learn
+11.) add_Child()
+12.) remove_Child()
+13.) remove_Children()
+14.) add_Child_From_Id()
+15.) remove_Child_From_Id()
+16.) get_Root()
+17.) get_Widget()
+
+Note : Every single method from these can be used with any widget because this as global methods of MIST Mobile which internally comes with every single widget not only with button but every widget has it's own events() so please use event().list() method to know about which additional methods are present for that widget.
+
+<b>How was the difficulty level ranked?</b>
+
+Easy to learn methods are basicly rendering methods
+
+Harsh to learn methods are events because events are somewhat confusing to begginers
+
+Hard to learn methods are the node structure of MIST Mobile JS Framework which allows manipulations
+
+Explanation:-
+
+Rendering methods are pretty simple to learn because most of them in MIST Mobile do not requires even a single argument and that's why those are easy
+
+Events methods are confusing for beggners because they get confused in between which to choose and how to use
+
+MIST Mobile follows a Node Based structure inspired from the Godot game engine's Node based structure which simplifies the developent process. 
+
+Note : MIST Mobile Js Framework's Node based structure is completly different from Node JS . Node based structure is a widgets management structure which is totaly different from Node JS which is another Framework and runtime environment for server side scripting with JS but Node Based Structure in MIST Mobile JS Framework was developed by MIST Mobile itself written by ghgltggamer officially. do not ne confused in between MIST Mobile JS Framework's Node Based Structure and Node JS these are 2 completly different entities to each other.
+
+
+<b>Now it's the time to start learning methods of button!!</b>
+
+render(): This method takes  single argument is input which should be a DOM object giving the location to render the button for example it could be the <code>document.body</code> for rendering the button on body or anything else even an element. Render method do not removes the internal content of the parent who is pasred for rendering the button exept render() appends the button inside the parent element.
+
+for Example:
+```javascript
+
+// Initalising the button
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// creating a widget
+const widget = new MIST_Mobile_Widgets;
+
+// creating a button with 100x30 dimension 
+const button = widget.button("Click me", 100, 30); // You can also parse other arguments ripple and click but i do not want to parse them here i would like to remain them default
+
+/*
+
+     If you want to also define ripple and click it would look like this
+
+     const button = widget.button("Click me", 100, 30, '0, 0, 0, 0.5', ()=>{
+        console.log("You clicked the button");
+     });
+
+*/
+
+// rendering the button inside the body directly
+button.render(document.body);
+
+/*
+
+    If you want to render the button in any other element you can parse a selector to this which would look like this 
+    button.render(document.getElementById('myElement'));
+
+*/
+
+```
+
+
+remove(): This methods will remove or simply delete the widget in which it has been used. For a button this will simply delete or remove the button widget completly from the application but as long as the widget is stored in an variable it will be able to re draw with render method.
+
+for Example:
+```javascript
+
+// Initalising the button
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// creating a widget
+const widget = new MIST_Mobile_Widgets;
+
+// creating a button with 100x30 dimension 
+const button = widget.button("Click me", 100, 30); // You can also parse other arguments ripple and click but i do not want to parse them here i would like to remain them default
+
+/*
+
+     If you want to also define ripple and click it would look like this
+
+     const button = widget.button("Click me", 100, 30, '0, 0, 0, 0.5', ()=>{
+        console.log("You clicked the button");
+     });
+
+*/
+
+// rendering the button inside the body directly
+button.render(document.body);
+
+/*
+
+    If you want to render the button in any other element you can parse a selector to this which would look like this 
+    button.render(document.getElementById('myElement'));
+
+*/
+
+
+// Now removing the button
+button.remove();
+
+```
+
+
+show(): This method can only work when the widget has been rendered already then this method just shows the widget if the widget has been hidden. 
+
+hide(): This method can only work when the widget has been rendered already then this method just hides the widget but do not completly removes it from the application.
+
+
+for Example:
+```javascript
+
+// Initalising the button
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// creating a widget
+const widget = new MIST_Mobile_Widgets;
+
+// creating a button with 100x30 dimension 
+const button = widget.button("Click me", 100, 30); // You can also parse other arguments ripple and click but i do not want to parse them here i would like to remain them default
+
+/*
+
+     If you want to also define ripple and click it would look like this
+
+     const button = widget.button("Click me", 100, 30, '0, 0, 0, 0.5', ()=>{
+        console.log("You clicked the button");
+     });
+
+*/
+
+// rendering the button inside the body directly
+button.render(document.body);
+
+/*
+
+    If you want to render the button in any other element you can parse a selector to this which would look like this 
+    button.render(document.getElementById('myElement'));
+
+*/
+
+
+// Hiding the button
+button.hide();
+
+// Showing the widget
+button.show();
+
+```
+
+event(): This method is only used for calling events for a widget means this methods reuturns an object containing the events. Usually we uses event().eventname() for calling the event but if you parse this method to a variable then you can access the events for that widgets with that variable
+
+for Example:
+```javascript
+
+// Initalising the button
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// creating a widget
+const widget = new MIST_Mobile_Widgets;
+
+// creating a button with 100x30 dimension 
+const button = widget.button("Click me", 100, 30); // You can also parse other arguments ripple and click but i do not want to parse them here i would like to remain them default
+
+/*
+
+     If you want to also define ripple and click it would look like this
+
+     const button = widget.button("Click me", 100, 30, '0, 0, 0, 0.5', ()=>{
+        console.log("You clicked the button");
+     });
+
+*/
+
+// rendering the button inside the body directly
+button.render(document.body);
+
+/*
+
+    If you want to render the button in any other element you can parse a selector to this which would look like this 
+    button.render(document.getElementById('myElement'));
+
+*/
+
+// Calling the click event from the button
+
+button.event().click(()=>{
+    console.log("button clicked");
+}); 
+
+// Or
+
+// Calling the event from another variable
+
+// assigning the event method to it
+const button_Events = button.event();
+
+// now we can call events from button_Events variable
+button_Events.click(()=>{
+    console.log("button clicked");
+});
+
+```
+
+
+event().list(): This is an event or a event method which returns an fstring of JavaScript which contains all the names of the available events for that widget which you are working with, This can be highly usefull as this is a event which works with every widget and helps developers to determine the available events. Mostly we logs the event().list() in console for better practises but it's a personal choise to use this or not.
+
+
+
+event().click(): This is an event or an event method which takes a call back function as an argument and then when ever the button widget recieves a click operation on self then the provided call back function will be fired means the function will be executed, when ever the button recieves clicks. 
+
+for Example:
+```javascript
+
+// Initalising the button
+MIST_Mobile_Init(MIST_Mobile_Button);
+
+// creating a widget
+const widget = new MIST_Mobile_Widgets;
+
+// creating a button with 100x30 dimension 
+const button = widget.button("Click me", 100, 30); // You can also parse other arguments ripple and click but i do not want to parse them here i would like to remain them default
+
+/*
+
+     If you want to also define ripple and click it would look like this
+
+     const button = widget.button("Click me", 100, 30, '0, 0, 0, 0.5', ()=>{
+        console.log("You clicked the button");
+     });
+
+*/
+
+// rendering the button inside the body directly
+button.render(document.body);
+
+/*
+
+    If you want to render the button in any other element you can parse a selector to this which would look like this 
+    button.render(document.getElementById('myElement'));
+
+*/
+
+//  I want to write helo on console when ever the button has been clicked i can do it by 
+
+button.event().click(()=>{
+    console.log("helo");
+});
+
+```
