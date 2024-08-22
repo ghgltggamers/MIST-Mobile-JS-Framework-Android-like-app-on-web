@@ -6,32 +6,54 @@
     <title>This is just a testing document for now</title>
 </head>
 <body>
-    
+    <p id="para">
+        Please click me
+    </p>
 </body>
 <script src="mist.mobile.js"></script>
 <script>
+    // MIST_Mobile_Init(MIST_Mobile_Button);
+
+    // const app = new MIST_Mobile_Widgets;
+    // // const btn = app.button('?', 50, 50, '255, 255, 255, 0.4');
+    // // btn.render(document.body);
+    // const btn = app.button('?', 500, 500, '255, 255, 255, 0.4');
+    // btn.render(document.body);
+
+    // btn.event().mouseDown(function(){
+    //     MIST_Mobile_Style(btn.get_Root()).boxShadow('5px 5px 10px black');
+    // })
+
+    // btn.event().mouseUp(function(){
+    //     MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
+    // })
+
+    // btn.event().mouseLeave(function(){
+    //     MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
+    // })
+
+    // btn.remove_Children();
+    // btn.add_Child_From_Id('para');
+    // setTimeout(function(){
+    //     btn.remove_Child_From_Id('para')
+    //     btn.hide();
+    //     btn.show();
+    // }, 3000)
+    // MIST_Mobile_Style(btn.get_Root()).backgroundColor('green');
+    // MIST_Mobile_Style(btn.get_Root()).color('white');
+    // MIST_Mobile_Style(btn.get_Root()).borderRadius(10000);
+
+    // console.log(MIST_Mobile_Random().get_number_remove_random);
+
     MIST_Mobile_Init(MIST_Mobile_Button);
 
-    const app = new MIST_Mobile_Widgets;
-    const btn = app.button('?', 50, 50, '255, 255, 255, 0.4');
-    btn.render(document.body);
+    const w = new MIST_Mobile_Widgets;
 
-    btn.event().mouseDown(function(){
-        MIST_Mobile_Style(btn.get_Root()).boxShadow('5px 5px 10px black');
+    const button = w.button("Sign in");
+    button.render(document.body);
+    button.event().click(()=>{
+        alert("hy")
     })
-
-    btn.event().mouseUp(function(){
-        MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
-    })
-
-    btn.event().mouseLeave(function(){
-        MIST_Mobile_Style(btn.get_Root()).boxShadow('0px 0px 0px black');
-    })
-
-    MIST_Mobile_Style(btn.get_Root()).backgroundColor('green');
-    MIST_Mobile_Style(btn.get_Root()).color('white');
-    MIST_Mobile_Style(btn.get_Root()).borderRadius(10000);
-
-    console.log(MIST_Mobile_Random().get_number_remove_random);
+    
 </script>
 </html>

@@ -86,8 +86,10 @@ const MIST_Mobile_Button = `
             font-family: 'arial';
             font-weight: bold;
             -webkit-tap-highlight-color: transparent;
-            position: relative;
+            position: absolute;
             overflow: hidden;
+            top: 50;
+            left: 50;
         }
 
         .mist-mobile-btn:hover {
@@ -308,6 +310,27 @@ class MIST_Mobile_Widgets {
 
             remove_Children(){
                 btn_c.innerHTML = "";
+            },
+
+
+
+            add_Child_From_Id(id){
+                var get_Element = document.getElementById(id);
+                btn_c.appendChild(get_Element);
+            },
+
+
+            remove_Child_From_Id(id){
+                var get_Element = document.getElementById(id).remove();
+            },
+
+
+            hide(){
+                btn_c.style.display='none';
+            },
+
+            show(){
+                btn_c.style.display='block';
             }
         }
     }
@@ -389,6 +412,18 @@ function MIST_Mobile_Style(element){
 
         cursor(css){
             widget.style.cursor = css;
+        },
+
+        font(string){
+            widget.style.font = string;
+        },
+
+        fontSize(numeric){
+            widget.style.fontSize = (numeric + 'px');
+        },
+
+        fontWeight(numeric){
+            widget.style.fontWeight = numeric;
         }
     }
 }
