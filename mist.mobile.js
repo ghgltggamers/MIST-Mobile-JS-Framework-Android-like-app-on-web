@@ -130,7 +130,32 @@ const MIST_Mobile_Button = `
             }
         }
 `;
-const MIST_Mobile_Init_Everything = MIST_Mobile_Button;
+
+const MIST_Mobile_Input = `
+.mist-mobile-input-widget{
+            border: 1px solid silver;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'quicksand', Arial, monospace;
+            transition: 0.5s;
+            outline: none;
+            height: 30px;
+            width: 250px;
+            padding-left: 12px;
+        }
+        .mist-mobile-input-widget:hover{
+            outline: 0.5px solid black;
+        }
+
+        .mist-mobile-input-widget:focus{
+            outline: 0px;
+            border: 3px solid rgb(118, 161, 226);
+            cursor: text;
+        }
+`;
+
+const MIST_Mobile_Init_Everything = MIST_Mobile_Button + MIST_Mobile_Input;
 function MIST_Mobile_Init(arg) {
     if (arg === MIST_Mobile_Button) {
         document.head.innerHTML = `
@@ -143,6 +168,13 @@ function MIST_Mobile_Init(arg) {
         document.head.innerHTML = `
             <style>
                 ${MIST_Mobile_Init_Everything}
+            </style>
+        `
+    }
+    else if (arg === MIST_Mobile_Input){
+        document.head.innerHTML = `
+            <style>
+                ${MIST_Mobile_Input}
             </style>
         `
     }
@@ -181,9 +213,19 @@ class MIST_Mobile_Widgets {
         btn_c.id = MIST_Mobile_Random().get_number_add_random('MIST_MOBILE_BUTTON-MIST_MOBILE_NATIVE_');
         // btn_c.style = css;
 
+
+        var mist_widget = document.createElement('mist_mobile_widget');
+        mist_widget.id = MIST_Mobile_Random().get_number_add_random("MIST_MOBILE_WIDGET-MIST_MOBILE_NATIVE_ROOT_");
+
+        var mist_widget_cache = document.createElement('mist_mobile_widget_cache');
+        mist_widget_cache.id = MIST_Mobile_Random().get_number_add_random("MIST_MOBILE_CACHE-MIST_MOBILE_WIDGET_CACHE_");
+        mist_widget_cache.style.display = 'none';
+
         return {
             render(parent) {
-                parent.appendChild(btn_c);
+                parent.appendChild(mist_widget);
+                mist_widget.appendChild(btn_c);
+                parent.appendChild(mist_widget_cache);
 
                 // Ripple effect code
                 var btn = document.querySelector('.mist-mobile-btn');
@@ -208,6 +250,8 @@ class MIST_Mobile_Widgets {
 
                     // console.log(`Width : ${width}`)
                     // console.log(`Height : ${height}`)
+
+                    // var btn_c_bounding_rect = btn_c.getBoundingClientRect();
 
                     span.style.top = (y - height / 2 + 'px');
                     span.style.left = (x - width / 2 + 'px');
@@ -242,44 +286,8 @@ class MIST_Mobile_Widgets {
 
 
 
-            event(){
-                return {
-                    list(){
-                        return `
-                            Event target : MIST_Mobile_Widgets.button() 
-                            target type : MIST_Mobile_Native
-                            Events available : click(callback), mouseDown(callback), mouseUp(callback), mouseLeave(callback)
-                                click(callback) : takes a function and executes it when ever the widgets has been clicked
-                                mouseDown(callback) : takes a function and executes it when ever the widgets suffers a mouse button down physically
-                                mouseUp(callback) : takes a function and executes it when ever the widgets suffers a mouse button up physically
-                                mouseLeave(callback) : takes a function and executes it when ever the widgets suffers a mouse exits it self
-
-                        `
-                    },
-                    click(callback){
-                        btn_c.addEventListener('click', function(){
-                            callback();
-                        })
-                    },
-
-                    mouseDown(callback){
-                        btn_c.addEventListener('mousedown', function(){
-                            callback();
-                        })
-                    },
-
-                    mouseUp(callback){
-                        btn_c.addEventListener('mouseUp', function(){
-                            callback();
-                        })
-                    },
-
-                    mouseLeave(callback){
-                        btn_c.addEventListener('mouseleave', function(){
-                            callback();
-                        })
-                    }
-                }
+            event(type, callback){
+                btn_c.addEventListener(type, callback)
             },
 
 
@@ -331,6 +339,253 @@ class MIST_Mobile_Widgets {
 
             show(){
                 btn_c.style.display='block';
+            },
+
+            // main method for controlling the main root, This is the most powerfull root for everywidget exept button becase exept button every other widget has a main root which helps in better and more controlled manipulation on widget. 
+            main(){
+                return {
+                    get_Root(){
+                        return mist_widget.id;
+                    },
+        
+        
+        
+                    add_Child(child){
+                        mist_widget.appendChild(child);
+                    },
+        
+        
+        
+                    remove_Child(child){
+                        mist_widget.removeChild(child)
+                    },
+        
+        
+        
+                    get_Widget(){
+                        return mist_widget;
+                    },
+        
+        
+        
+                    remove_Children(){
+                        mist_widget.innerHTML = "";
+                    },
+        
+        
+        
+                    add_Child_From_Id(id){
+                        var get_Element = document.getElementById(id);
+                        mist_widget.appendChild(get_Element);
+                    },
+        
+        
+                    remove_Child_From_Id(id){
+                        var get_Element = document.getElementById(id).remove();
+                    },
+        
+        
+                    hide(){
+                        mist_widget.style.display='none';
+                    },
+        
+                    show(){
+                        mist_widget.style.display='block';
+                    },
+
+                    // cache controll , This is a widget cache controll and not a full fledged cache because widget caches are not as robust as mist normal cache are but these caches can be used to quick data rendering and parsing
+                    add_Cache_Data(data){
+                        mist_widget_cache.innerHTML += data;
+                    },
+
+                    clear_Cache_Data(){
+                        mist_widget_cache.innerHTML = '';
+                    },
+
+                    get_Cache_Data(){
+                        return mist_widget_cache.innerHTML;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Input widget
+    input(placeholder, width = 120, height = 40, click = function(){console.log('MIST MOBILE : The button was clicked!')}) {
+        var input = document.createElement('input');
+        input.classList.add('mist-mobile-input-widget');
+        input.placeholder = placeholder;
+        input.style.height = (height + 'px');
+        input.style.width = (width + 'px');
+        input.id = MIST_Mobile_Random().get_number_add_random('MIST_MOBILE_INPUT-MIST_MOBILE_NATIVE_');
+        // btn_c.style = css;
+
+
+        var mist_widget = document.createElement('mist_mobile_widget');
+        mist_widget.id = MIST_Mobile_Random().get_number_add_random("MIST_MOBILE_WIDGET-MIST_MOBILE_NATIVE_ROOT_");
+
+        var mist_widget_cache = document.createElement('mist_mobile_widget_cache');
+        mist_widget_cache.id = MIST_Mobile_Random().get_number_add_random("MIST_MOBILE_CACHE-MIST_MOBILE_WIDGET_CACHE_");
+        mist_widget_cache.style.display = 'none';
+
+        return {
+            render(parent) {
+                parent.appendChild(mist_widget);
+                mist_widget.appendChild(input);
+                parent.appendChild(mist_widget_cache);
+            },
+
+
+
+
+            remove(){
+                input.remove();
+            },
+
+
+
+            event(type, callback){
+                btn_c.addEventListener(type, callback)
+            },
+
+
+
+            get_Root(){
+                return input.id;
+            },
+
+
+
+            add_Child(child){
+                input.appendChild(child);
+            },
+
+
+
+            remove_Child(child){
+                input.removeChild(child)
+            },
+
+
+
+            get_Widget(){
+                return input;
+            },
+
+
+
+            remove_Children(){
+                input.innerHTML = "";
+            },
+
+
+
+            add_Child_From_Id(id){
+                var get_Element = document.getElementById(id);
+                input.appendChild(get_Element);
+            },
+
+
+            remove_Child_From_Id(id){
+                var get_Element = document.getElementById(id).remove();
+            },
+
+
+            hide(){
+                input.style.display='none';
+            },
+
+            show(){
+                input.style.display='block';
+            },
+
+
+            // widget specific methods
+            value(text = null){
+                if (text === null){
+                    return input.value;
+                }
+                else {
+                    input.value = text;
+                }
+            },
+
+            placeholder(text = null){
+                if (text === null){
+                    return input.placeholder;
+                }
+                else {
+                    input.placeholder = text;
+                }
+            },
+
+
+            // main method for controlling the main root, This is the most powerfull root for everywidget exept button becase exept button every other widget has a main root which helps in better and more controlled manipulation on widget. 
+            main(){
+                return {
+                    get_Root(){
+                        return mist_widget.id;
+                    },
+        
+        
+        
+                    add_Child(child){
+                        mist_widget.appendChild(child);
+                    },
+        
+        
+        
+                    remove_Child(child){
+                        mist_widget.removeChild(child)
+                    },
+        
+        
+        
+                    get_Widget(){
+                        return mist_widget;
+                    },
+        
+        
+        
+                    remove_Children(){
+                        mist_widget.innerHTML = "";
+                    },
+        
+        
+        
+                    add_Child_From_Id(id){
+                        var get_Element = document.getElementById(id);
+                        mist_widget.appendChild(get_Element);
+                    },
+        
+        
+                    remove_Child_From_Id(id){
+                        var get_Element = document.getElementById(id).remove();
+                    },
+        
+        
+                    hide(){
+                        mist_widget.style.display='none';
+                    },
+        
+                    show(){
+                        mist_widget.style.display='block';
+                    },
+
+                    // cache controll , This is a widget cache controll and not a full fledged cache because widget caches are not as robust as mist normal cache are but these caches can be used to quick data rendering and parsing
+                    add_Cache_Data(data){
+                        mist_widget_cache.innerHTML += data;
+                    },
+
+                    clear_Cache_Data(){
+                        mist_widget_cache.innerHTML = '';
+                    },
+
+                    get_Cache_Data(){
+                        return mist_widget_cache.innerHTML;
+                    }
+                }
             }
         }
     }
@@ -430,4 +685,68 @@ function MIST_Mobile_Style(element){
 
 
 
+
+// dedicated caching system on page
+function MIST_Mobile_Cache(parent = document.head){// Used for creating cache
+    var cache = document.createElement("mist_mobile_cache");
+    cache.id = MIST_Mobile_Random().get_number_add_random("MIST_MOBILE_CACHE-MIST_MOBILE_CACHE_INDEPENDENT_");
+    cache.style.display = "none";
+    parent.appendChild(cache);
+    
+    return {
+        add_Child(child){
+            var mist_cache_child = document.createElement('mist_cache_child');
+            mist_cache_child.classList.add("mist-cache-child");
+            cache.appendChild(mist_cache_child);
+            mist_cache_child.appendChild(child);
+        },
+
+        remove_Child(index){
+            var child = document.getElementsByClassName('mist-cache-child');
+            child[index].remove();
+        },
+
+        get_Child(index){
+            var child = document.getElementsByClassName('mist-cache-child');
+            return child[index];
+        },
+
+        get_Child_Data(index){
+            var child = document.getElementsByClassName('mist-cache-child');
+            return child[index].innerHTML;
+        },
+
+        remove_Children(){
+            cache.innerHTML = '';
+        },
+
+        clear(){
+            cache.innerHTML = '';
+        },
+
+        // searched_Child:"",
+
+        // search_Child(string){
+        //     var child = document.getElementsByClassName('mist-cache-child');
+        //     for (var len = 0;len > child.length;len++){
+        //         if (child[len].includes(string)){
+        //             this.search_Child = child[len]
+        //             break;
+        //         }
+        //     }
+        // },
+
+        add_Child_Html(html){
+            var mist_cache_child = document.createElement('mist_cache_child');
+            mist_cache_child.classList.add("mist-cache-child");
+            cache.appendChild(mist_cache_child);
+            mist_cache_child.innerHTML += html;
+        }
+    }
+
+}
+
+
+
 // This was ended by ghgltggamer officially at Aug 20 2024, 20:16pm
+// New update was started with input() on Aug 24 2024 , timing of starting is not avaiable but ending was 20:18pm on same day and took some hours
