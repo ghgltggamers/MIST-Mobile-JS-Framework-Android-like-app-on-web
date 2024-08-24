@@ -1054,6 +1054,8 @@ button.render(document.body);
 */
 
 // adding p to button as a child
-button.remove_Child_From_Id("myDiv");
+button.remove_Child_From_Id("myDiv");```
 
-```
+# This readme is not fully completed and will be updated as a solo developer i need some time to fully rewrite this whooe readme file.
+
+# if you want to contribute please do it by creating a pull request
